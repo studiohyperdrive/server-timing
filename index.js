@@ -6,8 +6,7 @@ const Timer = require('./timer')
 module.exports = function serverTiming(options) {
   const opts = Object.assign({
     total: true,
-    enabled: true,
-    serverName: "CHANGEME",
+    enabled: true
   }, options);
   return (_, res, next) => {
     const headers = []
@@ -18,7 +17,7 @@ module.exports = function serverTiming(options) {
 
     const startAt = process.hrtime()
 
-    res.setMetric = setMetric(headers, opts)
+    res.setMetric = setMetric(headers)
     res.startTime = startTime(timer)
     res.endTime = endTime(timer, res)
 
@@ -26,7 +25,7 @@ module.exports = function serverTiming(options) {
       if (opts.total) {
         const diff = process.hrtime(startAt)
         const timeSec = (diff[0] * 1E3) + (diff[1] * 1e-6)
-        headers.push(`${opts.serverName}-total; dur=${timeSec}; desc="${opts.serverName} - Total Response Time"`)
+        headers.push(`total; dur=${timeSec}; desc="Total Response Time"`)
       }
       timer.clear()
 
@@ -41,7 +40,7 @@ module.exports = function serverTiming(options) {
   }
 }
 
-function setMetric(headers, opts) {
+function setMetric(headers) {
   return (name, value, description) => {
     if (typeof name !== 'string') {
       return console.warn('1st argument name is not string')
@@ -51,7 +50,7 @@ function setMetric(headers, opts) {
     }
 
     const metric = typeof description !== 'string' || !description ?
-      `${opts.serverName}-${name}; dur=${value}` : `${name}; dur=${value}; desc="${opts.serverName} - ${description}"`
+      `${name}; dur=${value}` : `${name}; dur=${value}; desc="${description}"`
 
     headers.push(metric)
   }
