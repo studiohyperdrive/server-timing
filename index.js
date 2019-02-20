@@ -7,7 +7,7 @@ module.exports = function serverTiming(options) {
   const opts = Object.assign({
     total: true,
     enabled: true,
-    serverName: "CHANGEME",
+    serverName: "default",
   }, options);
   return (_, res, next) => {
     const headers = []
