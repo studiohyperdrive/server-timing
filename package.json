@@ -1,5 +1,5 @@
 {
-  "name": "server-timing",
+  "name": "@acpaas/server-timing",
   "version": "2.1.0",
   "description": "This module can add `ServerTiming` Header to http response, and be able to use express middleware",
   "main": "index.js",
